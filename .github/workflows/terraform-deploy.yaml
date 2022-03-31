@@ -1,0 +1,37 @@
+name: "Terraform Deployment"
+on:
+  # Manual trigger
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [ main ]
+defaults:
+  run:
+    shell: bash
+jobs:
+  terraform:
+    name:  Terraform Deployment for s3 bidirectional replication
+    runs-on: [ 'ubuntu-latest']
+    env:
+         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+      - name: Terraform Init
+        id: init
+        run: |
+           rm -rf .terraform
+           terraform init
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform plan
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        id: apply
