@@ -2,7 +2,7 @@ module "s3_bucket" {
   source      = "./module/s3-bucket"
   environment = var.environment
   region      = var.region
-  bucket_name = "${var.environment}-devops4solutions-upload-bucket"
+  bucket_name = "${var.environment}-devops4solutions-upload-bucket1"
   kms_key     = data.aws_kms_key.basic-key.arn
 
 }
@@ -15,7 +15,7 @@ module "s3_bucket_dr" {
   region      = var.replication_region
   source      = "./module/s3-bucket"
   environment = "${var.environment}-dr"
-  bucket_name = "${var.environment}-devops4solutions-upload-bucket-dr"
+  bucket_name = "${var.environment}-devops4solutions-upload-bucket1-dr"
   kms_key     = data.aws_kms_key.basic-key-replication.arn
 
 }
