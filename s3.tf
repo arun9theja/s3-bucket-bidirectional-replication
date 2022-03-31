@@ -16,7 +16,7 @@ module "s3_bucket_dr" {
   source      = "./module/s3-bucket"
   environment = "${var.environment}-dr"
   bucket_name = "${var.environment}-devops4solutions-upload-bucket-dr"
-  kms_key     = data.aws_kms_key.basic-key.arn
+  kms_key     = data.aws_kms_key.basic-key-replication.arn
 
 }
 
@@ -34,7 +34,7 @@ module "s3_bucket_enable_replication" {
   sns_topic_name              = "devops4solutions-s3-replication-${var.environment}-to-${var.replication_region}"
   replication_environment     = "${var.environment}-dr"
   replication_region          = var.replication_region
-  kms_key                     = data.aws_kms_key.basic-key.arn
+  kms_key                     = data.aws_kms_key.basic-key-replication.arn
 
 
 }
